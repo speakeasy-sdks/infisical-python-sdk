@@ -1,0 +1,1073 @@
+openapi: 3.0.3
+info:
+  title: Infisical API documentation
+  description: |-
+    The Infisical REST API provides users an alternative way to programmatically access and manage secrets via HTTPS requests. This can be useful for automating tasks, such as rotating credentials, or for integrating secret management into a larger system.
+  contact:
+    email: 
+  version: 2.0.0
+externalDocs:
+  description: Infisical API documentation
+  url: https://infisical.com/docs/api-reference/overview/introduction
+servers:
+  - url: https://app.infisical.com/api/v2
+    description: Infisical production server
+security:
+  - bearerAuth: []
+tags:
+  - name: Secret
+    description: Everything about secrets
+  - name: User
+    description: Everything about users
+  - name: Organization
+    description: Everything about organizations
+  - name: Workspace
+    description: Everything about workspaces
+  - name: Membership
+    description: Everything about memberships
+  - name: Key
+    description: Everything about keys
+  - name: Log
+    description: Everything about logs
+  - name: Snapshot
+    description: Everything about snapshots
+paths:
+  /users/me:
+    get:
+      tags:
+        - User
+      summary: Get current user
+      description: Get current user
+      operationId: myUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/me/organizations:
+    get:
+      tags:
+        - User
+      summary: Get current user organizations
+      description: Get current user organizations
+      operationId: myOrganizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /organizations/{organizationId}/memberships:
+    get:
+      tags:
+        - Organization
+        - Membership
+      summary: Get organization memberships
+      description: Get organization memberships
+      operationId: getOrganizationMemberships
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /organizations/{organizationId}/memberships/{membershipId}:
+    patch:
+      tags:
+        - Organization
+        - Membership
+      summary: Update organization membership
+      description: Update organization membership
+      operationId: updateOrganizationMembership
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: membershipId
+          in: path
+          description: Membership ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Membership
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Organization
+        - Membership
+      summary: Delete organization membership
+      description: Delete organization membership
+      operationId: deleteOrganizationMembership
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+        - name: membershipId
+          in: path
+          description: Membership ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /organizations/{organizationId}/workspaces:
+    get:
+      tags:
+        - Organization
+        - Workspace
+      summary: Get organization workspaces
+      description: Get organization workspaces
+      operationId: getOrganizationWorkspaces
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workspace'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/memberships:
+    get:
+      tags:
+        - Workspace
+        - Membership
+      summary: Get workspace memberships
+      description: Get workspace memberships
+      operationId: getWorkspaceMemberships
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/memberships/{membershipId}:
+    patch:
+      tags:
+        - Workspace
+        - Membership
+      summary: Update workspace membership
+      description: Update workspace membership
+      operationId: updateWorkspaceMembership
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+        - name: membershipId
+          in: path
+          description: Membership ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Membership
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Workspace
+        - Membership
+      summary: Delete workspace membership
+      description: Delete workspace membership
+      operationId: deleteWorkspaceMembership
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+        - name: membershipId
+          in: path
+          description: Membership ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/encrypted-key:
+    get:
+      tags:
+        - Workspace
+        - Key
+      summary: Get workspace encrypted key
+      description: Get workspace encrypted key
+      operationId: getWorkspaceKeys
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Key'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/logs:
+    get:
+      tags:
+        - Workspace
+        - Log
+      summary: Get workspace logs
+      description: Get workspace logs
+      operationId: getWorkspaceLogs
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Log'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/snapshots:
+    get:
+      tags:
+        - Workspace
+        - Snapshot
+      summary: Get workspace snapshots
+      description: Get workspace snapshots
+      operationId: getWorkspaceSnapshots
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /workspace/{workspaceId}/secret-snapshots/rollback:
+    post:
+      tags:
+        - Workspace
+        - Snapshot
+      summary: Rollback workspace secret snapshots
+      description: Rollback workspace secret snapshots
+      operationId: rollbackSnapshots
+      parameters:
+        - name: workspaceId
+          in: path
+          description: Workspace ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Rollback workspace secret snapshots
+        required: true
+        content:
+          application/json:
+            schema:
+              name: version
+              type: integer
+              example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Secret'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /secrets/:
+    post:
+      tags:
+        - Secret
+      summary: Create secret
+      description: Create secret
+      operationId: createSecret
+      requestBody:
+        description: Secret
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspaceId:
+                  type: string
+                  example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+                environment:
+                  type: string
+                  example: production
+                secrets:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Secret'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Secret'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+        - Secret
+      summary: Get secrets
+      description: Get secrets
+      operationId: getSecrets
+      requestBody:
+        description: Secret
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspaceId:
+                  type: string
+                  example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+                environment:
+                  type: string
+                  example: production
+                context:
+                  type: string
+                  example: '{"key": "value"}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              type: array
+              items:
+                $ref: '#/components/schemas/Secret'    
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - Secret
+      summary: Update secrets
+      description: Update secrets
+      operationId: updateSecrets
+      requestBody:
+        description: Secret
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secrets:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Secret'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Secret'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Secret
+      summary: Delete secrets
+      description: Delete secrets
+      operationId: deleteSecrets
+      requestBody:
+        description: Secret
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/SecretId'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/SecretId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Secret'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /secret/{secretId}/secret-versions:
+    get:
+      tags:
+        - Secret
+      summary: Get secret versions
+      description: Get secret versions
+      operationId: getSecretVersions
+      parameters:
+        - in: path
+          name: secretId
+          description: Secret ID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: offset
+          description: Offset
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: Limit
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecretVersion'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /secret/{secretId}/secret-versions/rollback:
+    post:
+      tags:
+        - Secret
+      summary: Rollback secret versions
+      description: Rollback secret versions
+      operationId: rollbackSecretVersions
+      parameters:
+        - in: path
+          name: secretId
+          description: Secret ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Rollback secret versions
+        required: true
+        content:
+          application/json:
+            schema:
+              name: version
+              type: integer
+              example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: Unauthorized
+        statusCode:
+          type: integer
+          example: 401
+    Secret:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        version:
+          type: number
+          example: secret
+        workspace:
+          type: string
+          example: secret
+        type:
+          type: string
+          example: secret
+        user:
+          type: string
+        secretKeyCiphertext:
+          type: string
+          example: my_seceret_text
+        secretKeyIV:
+          type: string
+          example: my_key_iv
+        secretKeyTag:
+          type: string
+          example: my_key_tag
+        secretValueCiphertext:
+          type: string
+          example: my_seceret_text
+        secretValueIV:
+          type: string
+          example: my_value_iv
+        secretValueTag:
+          type: string
+          example: my_value_tag
+        secretCommentCiphertext:
+          type: string
+          example: my_seceret_text
+        secretCommentIV:
+          type: string
+          example: my_comment_iv
+        secretCommentTag:
+          type: string
+          example: my_comment_tagß
+        createdAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+        updatedAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+    SecretId:
+      type: string
+      example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+    SecretVersion:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        secret:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        version:
+          type: integer
+          example: 1
+        workspace:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        type:
+          type: string
+          example: secret
+        user:
+          type: string
+          example: jane
+        environment:
+          type: string
+          example: production
+        isDeleted:
+          type: string
+          example: false
+        secretKeyCiphertext:
+          type: string
+          example: my_seceret_text
+        secretKeyIV:
+          type: string
+          example: my_key_iv
+        secretKeyTag:
+          type: string
+          example: my_key_tag
+        secretValueCiphertext:
+          type: string
+          example: my_seceret_text
+        secretValueIV:
+          type: string
+          example: my_value_iv
+        secretValueTag:
+          type: string
+          example: my_value_tag
+        createdAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+        updatedAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+    Membership:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        workspace:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        role:
+          type: string
+          example: admin
+        status:
+          type: string
+          example: active
+    Key:
+      type: object
+      properties:
+        encryptedkey:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        nonce:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        sender:
+          $ref: '#/components/schemas/Sender'
+        receiver:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        workspace:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+    Sender:
+      type: object
+      properties:
+        publicKey:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+    Log:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        user:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        workspace:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        actionNames:
+          type: array
+          items:
+            type: string
+            example: createSecret
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+        channel:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        ipAddress:
+          type: string
+        createdAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+        updatedAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+    Action:
+      type: object
+      properties:
+        name:
+          type: string
+          example: createSecret
+        user:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        workspace:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        payload:
+          $ref: '#/components/schemas/Payload'
+    Payload:
+      type: object
+      properties:
+        oldSecretVersion:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        newSecretVersion:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+    Snapshot:
+      workspace:
+        type: string
+        example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+      version:
+        type: number
+        example: 1
+      secretVerssions:
+        type: array
+        items:
+          type: string
+    Workspace:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        name:
+          type: string
+          example: my_workspace
+        organization:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Environment'
+    Environment:
+      type: object
+      properties:
+        name:
+          type: string
+          example: production
+        slug:
+          type: string
+          example: production
+    Organization:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        name:
+          type: string
+          example: my_organization
+        customerId:
+          type: string
+          example: cus_5f8b9f9f9f9f9f
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        email:
+          type: string
+          example:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        publicKey:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        encryptedPrivateKey:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        iv:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        tag:
+          type: string
+          example: 5f8b9f9f-9f9f-9f9f-9f9f-9f9f9f9f9f9f
+        updatedAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
+        createdAt:
+          type: string
+          example: 2020-10-10T10:10:10.000Z
