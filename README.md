@@ -16,7 +16,7 @@ Installation -->
 ## SDK Installation
 
 ```bash
-pip install 
+pip install infisical
 ```
 <!-- End SDK Installation -->
 
