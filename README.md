@@ -1,4 +1,15 @@
-# 
+<div align="center">
+    <picture>
+        <source srcset="dark mode" media="(prefers-color-scheme: dark)">
+        <img src="light_mode">
+    </picture>
+   <p><strong>Open Source SecretOps</strong></p>
+   <p>The Open Source, end-to-end, easy to use tool that lets you securely sync secrets and configs across your team, devices, and infrastructure</p>
+   <a href="https://infisical.com/docs/api-reference/overview/introduction"><img src="https://img.shields.io/static/v1?label=Docs&message=API Ref&color=000000&style=for-the-badge" /></a>
+   <a href=""><img src="https://img.shields.io/github/actions/workflow/status/speakeasy-sdks/infisical-python-sdk/speakeasy_sdk_generation.yaml?style=for-the-badge" /></a>
+  <a href="https://join.slack.com/t/infisical-users/shared_invite/zt-1kdbk07ro-RtoyEt_9E~fyzGo_xQYP6g"><img src="https://img.shields.io/static/v1?label=Slack&message=Join&color=7289da&style=for-the-badge" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
+</div>
 
 <!-- Start SDK Installation -->
 ## SDK Installation
