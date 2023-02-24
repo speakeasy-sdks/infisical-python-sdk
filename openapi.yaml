@@ -1,0 +1,1098 @@
+openapi: 3.0.3
+info:
+  title: HoneyHive AI API documentation
+  description: |-
+    HoneyHive API allows you to programatically evaluate, deploy, monitor and fine-tune both closed and open-source large language models for production use-cases.
+  contact:
+    email: support@honeyhive.ai
+  version: 0.0.0
+externalDocs:
+  description: HoneyHive Docs
+  url: https://docs.honeyhive.ai/api-reference/authentication
+servers:
+  - url: https://honeyhive.ai:5000/
+security:
+  - bearerAuth: []
+tags:
+  - name: Task
+    description: Everything about Tasks
+  - name: Prompt
+    description: Everything about Prompts
+  - name: Generation
+    description: Everything about Generations
+  - name: Feedback
+    description: Everything about Feedback
+  - name: Metric
+    description: Everything about Metrics
+  - name: Dataset
+    description: Everything about Datasets
+  - name: Fine Tuned Model
+    description: Everything about Fine Tuned Models
+
+paths:
+  /tasks:
+    get:
+      tags:
+        - Task
+      summary: Find all Tasks
+      description: Find all tasks in certain organisation
+      operationId: findAllTasks
+      requestBody:
+        description: Fetch a particular task by name
+        content:
+          application/json:
+            schema:
+              type: string
+              example: "offline eval"
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    post:
+      tags:
+        - Task
+      summary: Create a new task
+      description: Create a new task
+      operationId: createTask
+      requestBody:
+        description: Task payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    put:
+      tags:
+        - Task
+      summary: Update an existing task
+      description: Update an existing task by code
+      operationId: updateTask
+      requestBody:
+        description: Update an existing task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+  /prompts:
+    get:
+      tags:
+        - Prompt
+      summary: Get Prompts
+      description: This endpoint gets the prompts associated with a particular task.
+      operationId: findPrompts
+      requestBody:
+        description: Find prompts by task or name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/findPromptsInput'
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompts'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    post:
+      tags:
+        - Prompt
+      summary: Create Prompt
+      description: This endpoint creates a prompt for a task.
+      operationId: createPrompt
+      requestBody:
+        description: Prompt to add to task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePromptInput'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePromptResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+        
+  /prompts/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: The id of the prompt
+        required: true
+        schema:
+          type: string
+          example: "123"
+    put:
+      tags:
+        - Prompt
+      summary: Update Prompts
+      description: This endpoint changes a prompt for a task.
+      operationId: changePrompt
+      requestBody:
+        description: Prompt to add to task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    delete:
+      tags:
+        - Prompt
+      summary: Delete Prompts
+      description: This endpoint deletes a particular prompt from the task.
+      operationId: deletePrompt
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromptDeleteResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /generate:
+    post:
+      tags:
+        - Generation
+      summary: Create Generation for Model and Prompt
+      description: This endpoint generates text using a given model and prompt.
+      operationId: modelPromptCreateGeneration
+      requestBody:
+        description: Prompt to add to task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelPromptGenerationInput'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelPromptGenerationOutput'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /generations:
+    get:
+      tags:
+        - Generation
+      summary: Get Generations
+      description: This endpoint gets the generations for a given task, prompt and model.
+      operationId: getGeneration
+      requestBody:
+        description: Get Generations
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerationInput'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerationOutputs'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+    post:
+      tags:
+        - Generation
+      summary: Create Generation for Task
+      description: This endpoint produces a new generation for a given task.
+      operationId: taskCreateGeneration  
+      requestBody:
+        description: Create tasks
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskGenerationInput'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskGenerationOutput'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /generations/bulk:
+    post:
+      tags:
+        - Generation
+      summary: Create Generation for Task
+      description: This endpoint ingests generations in bulk.
+      operationId: ingestGenerations
+      requestBody:
+        description: Ingest generations
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Generations'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Generations'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+  /feedback:
+    post:
+      tags:
+        - Feedback
+      summary: Create Feedback
+      description: This endpoint creates feedback for a generation.
+      operationId: createFeedback
+      requestBody:
+        description: Create feedback
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /fine_tuned_models:
+    get:
+      tags:
+        - Fine Tuned Model
+      summary: This endpoint gets the fine-tuned models being managed by the user.
+      description: This endpoint gets the fine-tuned models associated with a particular model or task.
+      operationId: findFineTunedModels
+      requestBody:
+        description: Find fine-tuned models by task or name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FineTunedModelsInput'
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTunedModelsResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /metrics:
+    get:
+      tags:
+        - Metric
+      summary: Get Metrics
+      description: This endpoint gets the metrics associated with a particular task.
+      operationId: findMetrics
+      requestBody:
+        description: Find metrics by task name.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindMetricsInput'
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindMetricsResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    post:
+      tags:
+        - Metric
+      summary: Create Metric
+      description: This endpoint adds a metric to a task.
+      operationId: createMetric
+      requestBody:
+        description: Metric to add to task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metric'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metric'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+  /datasets/:
+    get:
+      tags:
+        - Dataset
+      summary: Get Datasets
+      description: This endpoint gets the datasets associated with a particular task.
+      operationId: findDatasets
+      requestBody:
+        description: Find datasets by task name.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindDatasetsInput'
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindDatasetsResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    post:
+      tags:
+        - Dataset
+      summary: Create Dataset
+      description: This endpoint creates a new dataset
+      operationId: createDataset
+      requestBody:
+        description: New Dataset to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dataset'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDatasetResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+    
+  /datasets/{name}:
+    parameters:
+      - name: name
+        in: path
+        description: The name of the dataset
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+        - Dataset
+      summary: Delete Datasets
+      description: This endpoint deletes the dataset with the specified name.
+      operationId: deleteDataset
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteDatasetResponse'
+        '400':
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseBadRequest'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "123"
+        name:
+          type: string
+          required: true
+          example: ""
+        description:
+          type: string
+          required: false
+          example: ""
+        type:
+          type: string
+          required: false
+          enum:
+            - Text Generation
+            - Code Generation
+            - Classification
+            - Summarization
+            - Other
+        fine_tuned_models:
+          type: array
+          items:
+            type: string
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prompt'
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metric'
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+    Tasks:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+    Prompt:
+      type: object
+      properties:
+        name:
+          type: string
+        task:
+          type: string
+        version:
+          type: string
+        text:
+          type: string
+        input_variables:
+          type: array
+          items:
+            type: string
+        model:
+          type: string
+        provider:
+          type: string
+        hyperparameters:
+          $ref: '#/components/schemas/HyperParameters'
+        is_deployed:
+          type: boolean
+        few_shot_examples:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+
+    Prompts:
+      type: object
+      properties:
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prompt'
+    
+    CreatePromptInput:
+      type: object
+      properties:
+        task:
+          type: string
+        version:
+          type: string
+        required: false
+        text:
+          type: string
+        input_variables:
+          type: array
+          items:
+            type: string
+          required: false
+        model:
+          type: integer
+        provider:
+          type: string
+        hyperparameters:
+          type: object
+          $ref: '#/components/schemas/HyperParameters'
+        few_shot_examples:
+          type: array
+          items:
+            type: string
+          required: false
+
+    CreatePromptResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        task:
+          type: string
+        version:
+          type: string
+        text:
+          type: string
+        input_variables:
+          type: array
+          items:
+            type: string
+        model:
+          type: string
+        provider:
+          type: string
+        hyperparameters:
+          $ref: '#/components/schemas/HyperParameters'
+        few_shot_examples:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+
+    
+    TaskGenerationInput:
+      type: object
+      properties:
+        task:
+          type: string
+        prompts:
+            $ref: '#/components/schemas/Prompts'
+        source:
+          type: string
+        model_id:
+          type: string
+        best_of:
+          type: integer
+        metric:
+          type: string
+        sampling:
+          type: string
+        user_properties:
+          type: object
+          properties:
+            user_id:
+              type: string
+        provider_api_keys:
+          type: object
+          properties:
+            api_keys:
+              type: array
+              items:
+                type: string
+
+    TaskGenerationOutput:
+      type: object
+      properties:
+        prompt:
+          type: string
+        generation:
+          type: string
+        generation_id:
+          type: string
+          example: "123"
+        total_tokens:
+          type: integer
+        cost:
+          type: number
+        latency:
+          type: number
+
+    ModelPromptGenerationInput:
+      type: object
+      properties:
+        model:
+          type: string
+        prompt:
+          type: string
+        hyperparameters:
+          $ref: '#/components/schemas/HyperParameters'
+        task:
+          type: string
+        version:
+          type: string
+        source:
+          type: string
+
+    ModelPromptGenerationOutput:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        version:
+          type: string
+        prompt:
+          type: string
+        model:
+          type: string
+        hyperparameters:
+          $ref: '#/components/schemas/HyperParameters'
+        task:
+          type: string
+        generation:
+          type: string
+        total_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        cost:
+          type: number
+        source:
+          type: string
+
+    Generation:
+      type: object
+      properties:
+        task_id:
+          type: string
+        prompt:
+          type: string
+        model:
+          type: string
+        completion:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        id:
+          type: string
+          example: "5f3a2d6f8f9d9e0017d9f8d7"
+
+    Generations:
+      type: object
+      properties:
+        generations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Generation'
+
+
+    GenerationInput:
+      type: object
+      properties:
+        task:
+          type: string
+        version:
+          type: string
+        model:
+          type: string
+        limit:
+          type: integer
+
+    GenerationOutput:
+      type: object
+      properties:
+        task:
+          type: string
+        prompt:
+          type: string
+        model:
+          type: string
+        generated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        id:
+          type: string
+          example: "123"
+
+    GenerationOutputs:
+      type: object
+      properties:
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/GenerationOutput'
+
+    Feedback:
+      type: object
+      properties:
+        task:
+          type: string
+        generation_id:
+          type: string
+        feedback_json:
+          type: object
+          properties:
+            score:
+              type: integer
+            comment:
+              type: string
+        timestamp:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+
+    findPromptsInput:
+      type: object
+      properties:
+        task:
+          type: string
+        name:
+          type: string
+
+    HyperParameters:
+      type: object
+      properties:
+        temperature: 
+          type: number
+          example: 0.3
+        max_tokens:
+          type: integer
+          example: 800
+        top_p: 
+          type: integer
+          example: 1
+        frequency_penalty:
+          type: integer
+          example: 0
+        prescence_penalty:
+          type: integer
+          example: 0
+
+    Metric:
+      type: object
+      properties:
+        task_name:
+          type: string
+          example: "my task"
+        name:
+          type: string
+          example: "new metric"
+        code_snippet:
+          type: string
+          example: "code snippet"
+    
+    FindMetricsInput:
+      type: object
+      properties:
+        task_name:
+          type: string
+          example: "my task"
+          required: false
+
+    FindMetricsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/MetricsResponse'
+
+    MetricsResponse:
+      type: object
+      properties:
+        task_name:
+          type: string
+        metric_name:
+          type: string
+          description: "name of the metric"
+        metric_value:
+          type: string
+          description: "value of the metric"
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        id:
+          type: string
+          description: "id of the metric"
+
+    
+    Dataset:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "my task"
+        purpose:
+          type: string
+          example: "new metric"
+        file:
+          type: string
+          example: "????"
+        task:
+          type: string
+          example: "code snippet"
+        description:
+          type: string
+          example: "code snippet"
+
+    ApiResponseBadRequest:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 400
+        error:
+          type: string
+          example: Bad request
+
+
+    FineTunedModelsInput:
+      type: object
+      properties:
+        model_id:
+          type: string
+          required: false 
+        task:
+          type: string
+          required: false
+
+    FineTunedModelsResponse:
+      type: object
+      properties:
+        model_id:
+          type: string
+        object:
+          type: string
+        model:
+          type: string
+        hyperparams:
+          type: string
+        org_id:
+          type: string
+        result_files:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        validation_files:
+          type: array
+          items:
+            type: string
+        training_files:
+          type: array
+          items:
+            type: string
+        created_at: 
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+
+    FindDatasetsInput:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          required: false
+          description: "id of the dataset"
+        task:
+          type: string
+          required: false
+          description: "task of the dataset"
+        prompt:
+          type: string
+          required: false
+          description: "prompt of the dataset"
+        purpose:
+          type: string
+          required: false
+
+    FindDatasetsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          description: "data object associated with the dataset"
+        bytes:
+          type: string
+        file_name:
+          type: string
+          description: "prompt of the dataset"
+        purpose:
+          type: string
+          description: This is the purpose of the dataset.
+          enum:
+          - Training
+          - Validation
+          - Test
+        description:
+          type: string
+          description: "description of the dataset"
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        id:
+          type: string
+          description: "id of the dataset"
+
+    CreateDatasetResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "This is the name of the dataset."
+        task:
+          type: string
+          description: "This is the task associated with the dataset."
+        file_name:
+          type: string
+          description: "This is the file containing the dataset."
+        purpose:
+          type: string
+          description: This is the purpose of the dataset.
+        description:
+          type: string
+          description: "description of the dataset"
+        created_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        updated_at:
+          type: string
+          example: "2023-02-08T17:05:45.990Z"
+        id:
+          type: string
+          description: "id of the dataset"
+
+    DeleteDatasetResponse:
+      type: object
+      properties:
+        deleted:
+          type: boolean
+          description: "true if dataset was deleted"
+    
+    PromptDeleteResponse:
+      type: object
+      properties:
+        deleted:
+          type: boolean
+          description: "true if prompt was deleted"
