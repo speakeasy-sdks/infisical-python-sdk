@@ -1,5 +1,6 @@
 from __future__ import annotations
 import dataclasses
+import requests
 from ..shared import errorresponse as shared_errorresponse
 from ..shared import log as shared_log
 from typing import Optional
@@ -21,4 +22,5 @@ class GetWorkspaceLogsResponse:
     status_code: int = dataclasses.field()
     error_response: Optional[shared_errorresponse.ErrorResponse] = dataclasses.field(default=None)
     logs: Optional[list[shared_log.Log]] = dataclasses.field(default=None)
+    raw_response: Optional[requests.Response] = dataclasses.field(default=None)
     

@@ -18,8 +18,7 @@ class User:
         self._language = language
         self._sdk_version = sdk_version
         self._gen_version = gen_version
-
-    
+        
     def my_organizations(self) -> operations.MyOrganizationsResponse:
         r"""Get current user organizations
         Get current user organizations
@@ -27,32 +26,31 @@ class User:
         
         base_url = self._server_url
         
-        url = base_url.removesuffix("/") + "/users/me/organizations"
+        url = base_url.removesuffix('/') + '/users/me/organizations'
         
         
         client = self._security_client
         
-        r = client.request("GET", url)
-        content_type = r.headers.get("Content-Type")
+        http_res = client.request('GET', url)
+        content_type = http_res.headers.get('Content-Type')
 
-        res = operations.MyOrganizationsResponse(status_code=r.status_code, content_type=content_type)
+        res = operations.MyOrganizationsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
-        if r.status_code == 200:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[list[shared.Organization]])
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[list[shared.Organization]])
                 res.organizations = out
-        elif r.status_code == 401:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[shared.ErrorResponse])
+        elif http_res.status_code == 401:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
-        elif r.status_code == 500:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[shared.ErrorResponse])
+        elif http_res.status_code == 500:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
 
         return res
 
-    
     def my_user(self) -> operations.MyUserResponse:
         r"""Get current user
         Get current user
@@ -60,27 +58,27 @@ class User:
         
         base_url = self._server_url
         
-        url = base_url.removesuffix("/") + "/users/me"
+        url = base_url.removesuffix('/') + '/users/me'
         
         
         client = self._security_client
         
-        r = client.request("GET", url)
-        content_type = r.headers.get("Content-Type")
+        http_res = client.request('GET', url)
+        content_type = http_res.headers.get('Content-Type')
 
-        res = operations.MyUserResponse(status_code=r.status_code, content_type=content_type)
+        res = operations.MyUserResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
-        if r.status_code == 200:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[shared.User])
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.User])
                 res.user = out
-        elif r.status_code == 401:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[shared.ErrorResponse])
+        elif http_res.status_code == 401:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
-        elif r.status_code == 500:
-            if utils.match_content_type(content_type, "application/json"):
-                out = utils.unmarshal_json(r.text, Optional[shared.ErrorResponse])
+        elif http_res.status_code == 500:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
 
         return res

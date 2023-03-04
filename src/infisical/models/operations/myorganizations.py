@@ -1,5 +1,6 @@
 from __future__ import annotations
 import dataclasses
+import requests
 from ..shared import errorresponse as shared_errorresponse
 from ..shared import organization as shared_organization
 from typing import Optional
@@ -11,4 +12,5 @@ class MyOrganizationsResponse:
     status_code: int = dataclasses.field()
     error_response: Optional[shared_errorresponse.ErrorResponse] = dataclasses.field(default=None)
     organizations: Optional[list[shared_organization.Organization]] = dataclasses.field(default=None)
+    raw_response: Optional[requests.Response] = dataclasses.field(default=None)
     

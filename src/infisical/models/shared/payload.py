@@ -8,6 +8,6 @@ from typing import Optional
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Payload:
-    new_secret_version: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('newSecretVersion'), 'exclude': lambda f: f is None }})
-    old_secret_version: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('oldSecretVersion'), 'exclude': lambda f: f is None }})
+    new_secret_version: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('newSecretVersion'), 'exclude': lambda f: f is None }})
+    old_secret_version: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('oldSecretVersion'), 'exclude': lambda f: f is None }})
     

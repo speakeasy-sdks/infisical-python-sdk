@@ -9,9 +9,9 @@ from typing import Optional
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Key:
-    encryptedkey: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('encryptedkey'), 'exclude': lambda f: f is None }})
-    nonce: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('nonce'), 'exclude': lambda f: f is None }})
-    receiver: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('receiver'), 'exclude': lambda f: f is None }})
-    sender: Optional[shared_sender.Sender] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('sender'), 'exclude': lambda f: f is None }})
-    workspace: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.field_name('workspace'), 'exclude': lambda f: f is None }})
+    encryptedkey: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryptedkey'), 'exclude': lambda f: f is None }})
+    nonce: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nonce'), 'exclude': lambda f: f is None }})
+    receiver: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('receiver'), 'exclude': lambda f: f is None }})
+    sender: Optional[shared_sender.Sender] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sender'), 'exclude': lambda f: f is None }})
+    workspace: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('workspace'), 'exclude': lambda f: f is None }})
     

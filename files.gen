@@ -7,6 +7,7 @@ src/infisical/snapshot.py
 src/infisical/user.py
 src/infisical/workspace.py
 src/infisical/sdk.py
+pylintrc
 setup.py
 src/infisical/__init__.py
 src/infisical/models/__init__.py
