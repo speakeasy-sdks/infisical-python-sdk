@@ -13,4 +13,4 @@ from .sender import *
 from .user import *
 from .workspace import *
 
-__all__ = ["Action","Environment","ErrorResponse","Key","Log","Membership","Organization","Payload","SchemeBearerAuth","Secret","SecretVersion","Security","Sender","User","Workspace"]
+__all__ = ["Action","Environment","ErrorResponse","Key","Log","Membership","Organization","Payload","Secret","SecretVersion","Security","Sender","User","Workspace"]

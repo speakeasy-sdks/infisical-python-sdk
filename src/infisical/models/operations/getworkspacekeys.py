@@ -1,6 +1,6 @@
 from __future__ import annotations
 import dataclasses
-import requests
+import requests as requests_http
 from ..shared import errorresponse as shared_errorresponse
 from ..shared import key as shared_key
 from typing import Optional
@@ -22,5 +22,5 @@ class GetWorkspaceKeysResponse:
     status_code: int = dataclasses.field()
     error_response: Optional[shared_errorresponse.ErrorResponse] = dataclasses.field(default=None)
     keys: Optional[list[shared_key.Key]] = dataclasses.field(default=None)
-    raw_response: Optional[requests.Response] = dataclasses.field(default=None)
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
