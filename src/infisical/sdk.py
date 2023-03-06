@@ -33,8 +33,8 @@ class Infisical:
     _security: shared.Security
     _server_url: str = SERVERS[0]
     _language: str = "python"
-    _sdk_version: str = "0.4.0"
-    _gen_version: str = "1.8.2"
+    _sdk_version: str = "0.4.1"
+    _gen_version: str = "1.8.4"
 
     def __init__(self) -> None:
         self._client = requests.Session()
