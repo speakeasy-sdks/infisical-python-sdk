@@ -1,9 +1,6 @@
 <div align="center">
-    <picture>
-        <source srcset="https://user-images.githubusercontent.com/6267663/221301612-f358235f-55e5-4284-86f9-78ad18e714e6.svg" media="(prefers-color-scheme: dark)">
-        <img src="https://user-images.githubusercontent.com/6267663/221301610-ba56dcf5-5eaa-459c-b0c4-d03d805ac896.svg">
-    </picture>
-   <p><strong>Open Source SecretOps</strong></p>
+    <img src="https://user-images.githubusercontent.com/6267663/221301610-ba56dcf5-5eaa-459c-b0c4-d03d805ac896.svg">
+    <p><strong>Open Source SecretOps</strong></p>
    <p>The Open Source, end-to-end, easy to use tool that lets you securely sync secrets and configs across your team, devices, and infrastructure</p>
    <a href="https://infisical.com/docs/api-reference/overview/introduction"><img src="https://img.shields.io/static/v1?label=Docs&message=API Ref&color=bada5b&style=for-the-badge" /></a>
    <a href="https://github.com/speakeasy-sdks/infisical-python-sdk/actions"><img src="https://img.shields.io/github/actions/workflow/status/speakeasy-sdks/infisical-python-sdk/speakeasy_sdk_generation.yml?style=for-the-badge" /></a>
