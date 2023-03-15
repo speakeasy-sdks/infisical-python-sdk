@@ -17,11 +17,6 @@ class CreateSecretRequestBody:
     
 
 @dataclasses.dataclass
-class CreateSecretRequest:
-    request: CreateSecretRequestBody = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
-    
-
-@dataclasses.dataclass
 class CreateSecretResponse:
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()

@@ -40,11 +40,7 @@ class User:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Organization]])
                 res.organizations = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -72,11 +68,7 @@ class User:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.User])
                 res.user = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out

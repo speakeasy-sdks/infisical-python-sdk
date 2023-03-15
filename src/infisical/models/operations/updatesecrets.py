@@ -15,11 +15,6 @@ class UpdateSecretsRequestBody:
     
 
 @dataclasses.dataclass
-class UpdateSecretsRequest:
-    request: UpdateSecretsRequestBody = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
-    
-
-@dataclasses.dataclass
 class UpdateSecretsResponse:
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()

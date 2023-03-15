@@ -16,11 +16,6 @@ class GetSecretsRequestBody:
     
 
 @dataclasses.dataclass
-class GetSecretsRequest:
-    request: GetSecretsRequestBody = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
-    
-
-@dataclasses.dataclass
 class GetSecretsResponse:
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()

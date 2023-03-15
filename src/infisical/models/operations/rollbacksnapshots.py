@@ -7,14 +7,9 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class RollbackSnapshotsPathParams:
-    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
 class RollbackSnapshotsRequest:
-    path_params: RollbackSnapshotsPathParams = dataclasses.field()
-    request: int = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
+    request_body: int = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
+    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass

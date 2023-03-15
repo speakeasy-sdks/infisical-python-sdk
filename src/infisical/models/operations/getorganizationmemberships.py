@@ -7,13 +7,8 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class GetOrganizationMembershipsPathParams:
-    organization_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'organizationId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
 class GetOrganizationMembershipsRequest:
-    path_params: GetOrganizationMembershipsPathParams = dataclasses.field()
+    organization_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'organizationId', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass

@@ -3,13 +3,8 @@ import dataclasses
 import requests as requests_http
 from ..shared import errorresponse as shared_errorresponse
 from ..shared import secret as shared_secret
-from typing import Any, Optional
+from typing import Optional
 
-
-@dataclasses.dataclass
-class DeleteSecretsRequest:
-    request: Any = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
-    
 
 @dataclasses.dataclass
 class DeleteSecretsResponse:

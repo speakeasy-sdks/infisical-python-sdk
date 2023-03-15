@@ -19,7 +19,7 @@ class Secret:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
-    def create_secret(self, request: operations.CreateSecretRequest) -> operations.CreateSecretResponse:
+    def create_secret(self, request: operations.CreateSecretRequestBody) -> operations.CreateSecretResponse:
         r"""Create secret
         Create secret
         """
@@ -29,7 +29,7 @@ class Secret:
         url = base_url.removesuffix('/') + '/secrets/'
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -46,18 +46,14 @@ class Secret:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Secret]])
                 res.secrets = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
 
         return res
 
-    def delete_secrets(self, request: operations.DeleteSecretsRequest) -> operations.DeleteSecretsResponse:
+    def delete_secrets(self, request: Any) -> operations.DeleteSecretsResponse:
         r"""Delete secrets
         Delete secrets
         """
@@ -67,7 +63,7 @@ class Secret:
         url = base_url.removesuffix('/') + '/secrets/'
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -84,11 +80,7 @@ class Secret:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Secret]])
                 res.secrets = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -102,9 +94,9 @@ class Secret:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/secret/{secretId}/secret-versions', request.path_params)
+        url = utils.generate_url(operations.GetSecretVersionsRequest, base_url, '/secret/{secretId}/secret-versions', request)
         
-        query_params = utils.get_query_params(request.query_params)
+        query_params = utils.get_query_params(operations.GetSecretVersionsRequest, request)
         
         client = self._security_client
         
@@ -117,18 +109,14 @@ class Secret:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.SecretVersion]])
                 res.secret_versions = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
 
         return res
 
-    def get_secrets(self, request: operations.GetSecretsRequest) -> operations.GetSecretsResponse:
+    def get_secrets(self, request: operations.GetSecretsRequestBody) -> operations.GetSecretsResponse:
         r"""Get secrets
         Get secrets
         """
@@ -138,7 +126,7 @@ class Secret:
         url = base_url.removesuffix('/') + '/secrets/'
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -153,11 +141,7 @@ class Secret:
         
         if http_res.status_code == 200:
             pass
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -171,10 +155,10 @@ class Secret:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/secret/{secretId}/secret-versions/rollback', request.path_params)
+        url = utils.generate_url(operations.RollbackSecretVersionsRequest, base_url, '/secret/{secretId}/secret-versions/rollback', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -191,18 +175,14 @@ class Secret:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Secret])
                 res.secret = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
 
         return res
 
-    def update_secrets(self, request: operations.UpdateSecretsRequest) -> operations.UpdateSecretsResponse:
+    def update_secrets(self, request: operations.UpdateSecretsRequestBody) -> operations.UpdateSecretsResponse:
         r"""Update secrets
         Update secrets
         """
@@ -212,7 +192,7 @@ class Secret:
         url = base_url.removesuffix('/') + '/secrets/'
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -229,11 +209,7 @@ class Secret:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Secret]])
                 res.secrets = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out

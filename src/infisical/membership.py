@@ -26,7 +26,7 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/organizations/{organizationId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.DeleteOrganizationMembershipRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
         
         
         client = self._security_client
@@ -40,11 +40,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -58,7 +54,7 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.DeleteWorkspaceMembershipRequest, base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request)
         
         
         client = self._security_client
@@ -72,11 +68,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -90,7 +82,7 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/organizations/{organizationId}/memberships', request.path_params)
+        url = utils.generate_url(operations.GetOrganizationMembershipsRequest, base_url, '/organizations/{organizationId}/memberships', request)
         
         
         client = self._security_client
@@ -104,11 +96,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Membership]])
                 res.memberships = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -122,7 +110,7 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceMembershipsRequest, base_url, '/workspace/{workspaceId}/memberships', request)
         
         
         client = self._security_client
@@ -136,11 +124,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Membership]])
                 res.memberships = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -154,10 +138,10 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/organizations/{organizationId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.UpdateOrganizationMembershipRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "membership", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -174,11 +158,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -192,10 +172,10 @@ class Membership:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.UpdateWorkspaceMembershipRequest, base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "membership", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -212,11 +192,7 @@ class Membership:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out

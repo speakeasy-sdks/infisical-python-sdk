@@ -6,13 +6,8 @@ from typing import Any, Optional
 
 
 @dataclasses.dataclass
-class GetWorkspaceSnapshotsPathParams:
-    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
 class GetWorkspaceSnapshotsRequest:
-    path_params: GetWorkspaceSnapshotsPathParams = dataclasses.field()
+    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass

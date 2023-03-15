@@ -7,14 +7,9 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class RollbackSecretVersionsPathParams:
-    secret_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'secretId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
 class RollbackSecretVersionsRequest:
-    path_params: RollbackSecretVersionsPathParams = dataclasses.field()
-    request: int = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
+    request_body: int = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
+    secret_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'secretId', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass

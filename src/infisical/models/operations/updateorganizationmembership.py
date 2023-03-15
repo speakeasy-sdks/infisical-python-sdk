@@ -7,15 +7,10 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class UpdateOrganizationMembershipPathParams:
+class UpdateOrganizationMembershipRequest:
+    membership: shared_membership.Membership = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
     membership_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'membershipId', 'style': 'simple', 'explode': False }})
     organization_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'organizationId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
-class UpdateOrganizationMembershipRequest:
-    path_params: UpdateOrganizationMembershipPathParams = dataclasses.field()
-    request: shared_membership.Membership = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
     
 
 @dataclasses.dataclass

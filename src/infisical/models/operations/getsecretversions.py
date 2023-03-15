@@ -7,20 +7,10 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class GetSecretVersionsPathParams:
+class GetSecretVersionsRequest:
     secret_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'secretId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
-class GetSecretVersionsQueryParams:
     limit: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'limit', 'style': 'form', 'explode': True }})
     offset: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'offset', 'style': 'form', 'explode': True }})
-    
-
-@dataclasses.dataclass
-class GetSecretVersionsRequest:
-    path_params: GetSecretVersionsPathParams = dataclasses.field()
-    query_params: GetSecretVersionsQueryParams = dataclasses.field()
     
 
 @dataclasses.dataclass

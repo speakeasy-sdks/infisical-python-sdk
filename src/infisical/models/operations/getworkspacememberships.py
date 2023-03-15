@@ -7,13 +7,8 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class GetWorkspaceMembershipsPathParams:
-    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
 class GetWorkspaceMembershipsRequest:
-    path_params: GetWorkspaceMembershipsPathParams = dataclasses.field()
+    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass

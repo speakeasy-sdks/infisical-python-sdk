@@ -26,7 +26,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.DeleteWorkspaceMembershipRequest, base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request)
         
         
         client = self._security_client
@@ -40,11 +40,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -58,7 +54,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/organizations/{organizationId}/workspaces', request.path_params)
+        url = utils.generate_url(operations.GetOrganizationWorkspacesRequest, base_url, '/organizations/{organizationId}/workspaces', request)
         
         
         client = self._security_client
@@ -72,11 +68,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Workspace]])
                 res.workspaces = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -90,7 +82,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/encrypted-key', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceKeysRequest, base_url, '/workspace/{workspaceId}/encrypted-key', request)
         
         
         client = self._security_client
@@ -104,11 +96,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Key]])
                 res.keys = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -122,7 +110,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/logs', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceLogsRequest, base_url, '/workspace/{workspaceId}/logs', request)
         
         
         client = self._security_client
@@ -136,11 +124,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Log]])
                 res.logs = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -154,7 +138,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceMembershipsRequest, base_url, '/workspace/{workspaceId}/memberships', request)
         
         
         client = self._security_client
@@ -168,11 +152,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Membership]])
                 res.memberships = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -186,7 +166,7 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/snapshots', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceSnapshotsRequest, base_url, '/workspace/{workspaceId}/snapshots', request)
         
         
         client = self._security_client
@@ -200,11 +180,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[Any]])
                 res.snapshots = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -218,10 +194,10 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/secret-snapshots/rollback', request.path_params)
+        url = utils.generate_url(operations.RollbackSnapshotsRequest, base_url, '/workspace/{workspaceId}/secret-snapshots/rollback', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -238,11 +214,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Secret]])
                 res.secrets = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -256,10 +228,10 @@ class Workspace:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request.path_params)
+        url = utils.generate_url(operations.UpdateWorkspaceMembershipRequest, base_url, '/workspace/{workspaceId}/memberships/{membershipId}', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "membership", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -276,11 +248,7 @@ class Workspace:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Membership])
                 res.membership = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out

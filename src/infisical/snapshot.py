@@ -26,7 +26,7 @@ class Snapshot:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/snapshots', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceSnapshotsRequest, base_url, '/workspace/{workspaceId}/snapshots', request)
         
         
         client = self._security_client
@@ -40,11 +40,7 @@ class Snapshot:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[Any]])
                 res.snapshots = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
@@ -58,10 +54,10 @@ class Snapshot:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/secret-snapshots/rollback', request.path_params)
+        url = utils.generate_url(operations.RollbackSnapshotsRequest, base_url, '/workspace/{workspaceId}/secret-snapshots/rollback', request)
         
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         if data is None and form is None:
@@ -78,11 +74,7 @@ class Snapshot:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Secret]])
                 res.secrets = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out

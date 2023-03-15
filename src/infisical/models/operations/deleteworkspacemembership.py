@@ -7,14 +7,9 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class DeleteWorkspaceMembershipPathParams:
+class DeleteWorkspaceMembershipRequest:
     membership_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'membershipId', 'style': 'simple', 'explode': False }})
     workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
-    
-
-@dataclasses.dataclass
-class DeleteWorkspaceMembershipRequest:
-    path_params: DeleteWorkspaceMembershipPathParams = dataclasses.field()
     
 
 @dataclasses.dataclass

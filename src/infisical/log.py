@@ -26,7 +26,7 @@ class Log:
         
         base_url = self._server_url
         
-        url = utils.generate_url(base_url, '/workspace/{workspaceId}/logs', request.path_params)
+        url = utils.generate_url(operations.GetWorkspaceLogsRequest, base_url, '/workspace/{workspaceId}/logs', request)
         
         
         client = self._security_client
@@ -40,11 +40,7 @@ class Log:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[shared.Log]])
                 res.logs = out
-        elif http_res.status_code == 401:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-        elif http_res.status_code == 500:
+        elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
                 res.error_response = out
