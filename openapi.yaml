@@ -14,23 +14,27 @@ servers:
     description: Infisical production server
 security:
   - bearerAuth: []
+x-speakeasy-name-override:
+  - operationId: get*
+    methodNameOverride: get
+  - operationId: create*
+    methodNameOverride: create
+  - operationId: list*
+    methodNameOverride: list
+  - operationId: delete*
+    methodNameOverride: delete
+  - operationId: update*
+    methodNameOverride: update
 tags:
-  - name: Secret
+  - name: Secrets
     description: Everything about secrets
   - name: User
     description: Everything about users
-  - name: Organization
+  - name: Organizations
     description: Everything about organizations
-  - name: Workspace
+  - name: Workspaces
     description: Everything about workspaces
-  - name: Membership
-    description: Everything about memberships
-  - name: Key
-    description: Everything about keys
-  - name: Log
-    description: Everything about logs
-  - name: Snapshot
-    description: Everything about snapshots
+ 
 paths:
   /users/me:
     get:
@@ -64,7 +68,7 @@ paths:
         - User
       summary: Get current user organizations
       description: Get current user organizations
-      operationId: myOrganizations
+      operationId: myOrganization
       responses:
         '200':
           description: OK
@@ -90,11 +94,11 @@ paths:
   /organizations/{organizationId}/memberships:
     get:
       tags:
-        - Organization
-        - Membership
-      summary: Get organization memberships
-      description: Get organization memberships
-      operationId: getOrganizationMemberships
+        - Organizations
+      summary: List organization memberships
+      description: List organization memberships
+      operationId: ListOrgMemberships
+      x-speakeasy-name-override: ListMembership
       parameters:
         - name: organizationId
           in: path
@@ -127,11 +131,11 @@ paths:
   /organizations/{organizationId}/memberships/{membershipId}:
     patch:
       tags:
-        - Organization
-        - Membership
+        - Organizations
       summary: Update organization membership
       description: Update organization membership
-      operationId: updateOrganizationMembership
+      operationId: updateOrgMemberships
+      x-speakeasy-name-override: UpdateMembership
       parameters:
         - name: organizationId
           in: path
@@ -173,11 +177,11 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       tags:
-        - Organization
-        - Membership
+        - Organizations
       summary: Delete organization membership
       description: Delete organization membership
-      operationId: deleteOrganizationMembership
+      operationId: deleteOrgMemberships
+      x-speakeasy-name-override: DeleteMembership
       parameters:
         - name: organizationId
           in: path
@@ -213,11 +217,10 @@ paths:
   /organizations/{organizationId}/workspaces:
     get:
       tags:
-        - Organization
-        - Workspace
-      summary: Get organization workspaces
-      description: Get organization workspaces
-      operationId: getOrganizationWorkspaces
+        - Workspaces
+      summary: List organization workspaces
+      description: List organization workspaces
+      operationId: ListWorkspace
       parameters:
         - name: organizationId
           in: path
@@ -249,11 +252,11 @@ paths:
   /workspace/{workspaceId}/memberships:
     get:
       tags:
-        - Workspace
-        - Membership
+        - Workspaces
       summary: Get workspace memberships
       description: Get workspace memberships
-      operationId: getWorkspaceMemberships
+      operationId: ListWorkspaceMemberships
+      x-speakeasy-name-override: ListMembership
       parameters:
         - name: workspaceId
           in: path
@@ -285,11 +288,11 @@ paths:
   /workspace/{workspaceId}/memberships/{membershipId}:
     patch:
       tags:
-        - Workspace
-        - Membership
+        - Workspaces
       summary: Update workspace membership
       description: Update workspace membership
       operationId: updateWorkspaceMembership
+      x-speakeasy-name-override: UpdateMembership
       parameters:
         - name: workspaceId
           in: path
@@ -331,11 +334,11 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       tags:
-        - Workspace
-        - Membership
+        - Workspaces
       summary: Delete workspace membership
       description: Delete workspace membership
       operationId: deleteWorkspaceMembership
+      x-speakeasy-name-override: DeleteMembership
       parameters:
         - name: workspaceId
           in: path
@@ -371,11 +374,10 @@ paths:
   /workspace/{workspaceId}/encrypted-key:
     get:
       tags:
-        - Workspace
-        - Key
+        - Workspaces
       summary: Get workspace encrypted key
       description: Get workspace encrypted key
-      operationId: getWorkspaceKeys
+      operationId: ListKeys
       parameters:
         - name: workspaceId
           in: path
@@ -407,11 +409,10 @@ paths:
   /workspace/{workspaceId}/logs:
     get:
       tags:
-        - Workspace
-        - Log
+        - Workspaces
       summary: Get workspace logs
       description: Get workspace logs
-      operationId: getWorkspaceLogs
+      operationId: ListLogs
       parameters:
         - name: workspaceId
           in: path
@@ -443,11 +444,10 @@ paths:
   /workspace/{workspaceId}/snapshots:
     get:
       tags:
-        - Workspace
-        - Snapshot
-      summary: Get workspace snapshots
-      description: Get workspace snapshots
-      operationId: getWorkspaceSnapshots
+        - Workspaces
+      summary: List workspace snapshots
+      description: List workspace snapshots
+      operationId: ListSnapshots
       parameters:
         - name: workspaceId
           in: path
@@ -479,11 +479,10 @@ paths:
   /workspace/{workspaceId}/secret-snapshots/rollback:
     post:
       tags:
-        - Workspace
-        - Snapshot
+        - Workspaces
       summary: Rollback workspace secret snapshots
       description: Rollback workspace secret snapshots
-      operationId: rollbackSnapshots
+      operationId: RollbackSnapshots
       parameters:
         - name: workspaceId
           in: path
@@ -524,10 +523,10 @@ paths:
   /secrets/:
     post:
       tags:
-        - Secret
+        - Secrets
       summary: Create secret
       description: Create secret
-      operationId: createSecret
+      operationId: createSecrets
       requestBody:
         description: Secret
         required: true
@@ -569,10 +568,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     get:
       tags:
-        - Secret
-      summary: Get secrets
-      description: Get secrets
-      operationId: getSecrets
+        - Secrets
+      summary: List secrets
+      description: List secrets
+      operationId: listSecrets
       requestBody:
         description: Secret
         required: true
@@ -612,7 +611,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     patch:
       tags:
-        - Secret
+        - Secrets
       summary: Update secrets
       description: Update secrets
       operationId: updateSecrets
@@ -651,7 +650,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       tags:
-        - Secret
+        - Secrets
       summary: Delete secrets
       description: Delete secrets
       operationId: deleteSecrets
@@ -690,10 +689,10 @@ paths:
   /secret/{secretId}/secret-versions:
     get:
       tags:
-        - Secret
+        - Secrets
       summary: Get secret versions
       description: Get secret versions
-      operationId: getSecretVersions
+      operationId: ListVersions
       parameters:
         - in: path
           name: secretId
@@ -737,10 +736,10 @@ paths:
   /secret/{secretId}/secret-versions/rollback:
     post:
       tags:
-        - Secret
+        - Secrets
       summary: Rollback secret versions
       description: Rollback secret versions
-      operationId: rollbackSecretVersions
+      operationId: RollbackVersions
       parameters:
         - in: path
           name: secretId
