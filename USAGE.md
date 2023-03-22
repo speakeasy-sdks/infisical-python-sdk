@@ -10,13 +10,14 @@ s = infisical.Infisical(
 )
 
 
-req = operations.GetWorkspaceKeysRequest(
-    workspace_id="unde",
+req = operations.DeleteOrgMembershipsRequest(
+    membership_id="unde",
+    organization_id="deserunt",
 )
     
-res = s.key.get_workspace_keys(req)
+res = s.organizations.delete_membership(req)
 
-if res.keys is not None:
+if res.membership is not None:
     # handle response
 ```
 <!-- End SDK Example Usage -->

@@ -2,14 +2,10 @@
 
 import requests as requests_http
 from . import utils
-from .key import Key
-from .log import Log
-from .membership import Membership
-from .organization import Organization
-from .secret import Secret
-from .snapshot import Snapshot
+from .organizations import Organizations
+from .secrets import Secrets
 from .user import User
-from .workspace import Workspace
+from .workspaces import Workspaces
 from infisical.models import shared
 
 SERVERS = [
@@ -22,29 +18,21 @@ class Infisical:
     r"""The Infisical REST API provides users an alternative way to programmatically access and manage secrets via HTTPS requests. This can be useful for automating tasks, such as rotating credentials, or for integrating secret management into a larger system.
     https://infisical.com/docs/api-reference/overview/introduction - Infisical API documentation
     """
-    key: Key
-    r"""Everything about keys"""
-    log: Log
-    r"""Everything about logs"""
-    membership: Membership
-    r"""Everything about memberships"""
-    organization: Organization
+    organizations: Organizations
     r"""Everything about organizations"""
-    secret: Secret
+    secrets: Secrets
     r"""Everything about secrets"""
-    snapshot: Snapshot
-    r"""Everything about snapshots"""
     user: User
     r"""Everything about users"""
-    workspace: Workspace
+    workspaces: Workspaces
     r"""Everything about workspaces"""
 
     _client: requests_http.Session
     _security_client: requests_http.Session
     _server_url: str = SERVERS[0]
     _language: str = "python"
-    _sdk_version: str = "0.8.0"
-    _gen_version: str = "2.12.10"
+    _sdk_version: str = "0.9.0"
+    _gen_version: str = "2.13.0"
 
     def __init__(self,
                  security: shared.Security = None,
@@ -81,7 +69,7 @@ class Infisical:
         self._init_sdks()
     
     def _init_sdks(self):
-        self.key = Key(
+        self.organizations = Organizations(
             self._client,
             self._security_client,
             self._server_url,
@@ -90,43 +78,7 @@ class Infisical:
             self._gen_version
         )
         
-        self.log = Log(
-            self._client,
-            self._security_client,
-            self._server_url,
-            self._language,
-            self._sdk_version,
-            self._gen_version
-        )
-        
-        self.membership = Membership(
-            self._client,
-            self._security_client,
-            self._server_url,
-            self._language,
-            self._sdk_version,
-            self._gen_version
-        )
-        
-        self.organization = Organization(
-            self._client,
-            self._security_client,
-            self._server_url,
-            self._language,
-            self._sdk_version,
-            self._gen_version
-        )
-        
-        self.secret = Secret(
-            self._client,
-            self._security_client,
-            self._server_url,
-            self._language,
-            self._sdk_version,
-            self._gen_version
-        )
-        
-        self.snapshot = Snapshot(
+        self.secrets = Secrets(
             self._client,
             self._security_client,
             self._server_url,
@@ -144,7 +96,7 @@ class Infisical:
             self._gen_version
         )
         
-        self.workspace = Workspace(
+        self.workspaces = Workspaces(
             self._client,
             self._security_client,
             self._server_url,

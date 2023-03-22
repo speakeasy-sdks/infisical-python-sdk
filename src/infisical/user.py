@@ -22,7 +22,7 @@ class User:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
-    def my_organizations(self) -> operations.MyOrganizationsResponse:
+    def my_organization(self) -> operations.MyOrganizationResponse:
         r"""Get current user organizations
         Get current user organizations
         """
@@ -36,7 +36,7 @@ class User:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.MyOrganizationsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.MyOrganizationResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):

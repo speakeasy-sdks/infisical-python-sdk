@@ -9,7 +9,7 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class DeleteOrganizationMembershipRequest:
+class DeleteOrgMembershipsRequest:
     
     membership_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'membershipId', 'style': 'simple', 'explode': False }})
     r"""Membership ID"""  
@@ -18,7 +18,7 @@ class DeleteOrganizationMembershipRequest:
     
 
 @dataclasses.dataclass
-class DeleteOrganizationMembershipResponse:
+class DeleteOrgMembershipsResponse:
     
     content_type: str = dataclasses.field()  
     status_code: int = dataclasses.field()  

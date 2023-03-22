@@ -5,7 +5,7 @@ from . import utils
 from infisical.models import operations, shared
 from typing import Any, Optional
 
-class Workspace:
+class Workspaces:
     r"""Everything about workspaces"""
     _client: requests_http.Session
     _security_client: requests_http.Session
@@ -22,7 +22,7 @@ class Workspace:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
-    def delete_workspace_membership(self, request: operations.DeleteWorkspaceMembershipRequest) -> operations.DeleteWorkspaceMembershipResponse:
+    def delete_membership(self, request: operations.DeleteWorkspaceMembershipRequest) -> operations.DeleteWorkspaceMembershipResponse:
         r"""Delete workspace membership
         Delete workspace membership
         """
@@ -49,40 +49,13 @@ class Workspace:
 
         return res
 
-    def get_organization_workspaces(self, request: operations.GetOrganizationWorkspacesRequest) -> operations.GetOrganizationWorkspacesResponse:
-        r"""Get organization workspaces
-        Get organization workspaces
-        """
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.GetOrganizationWorkspacesRequest, base_url, '/organizations/{organizationId}/workspaces', request)
-        
-        
-        client = self._security_client
-        
-        http_res = client.request('GET', url)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.GetOrganizationWorkspacesResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[list[shared.Workspace]])
-                res.workspaces = out
-        elif http_res.status_code in [401, 500]:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-
-        return res
-
-    def get_workspace_keys(self, request: operations.GetWorkspaceKeysRequest) -> operations.GetWorkspaceKeysResponse:
+    def list_keys(self, request: operations.ListKeysRequest) -> operations.ListKeysResponse:
         r"""Get workspace encrypted key
         Get workspace encrypted key
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetWorkspaceKeysRequest, base_url, '/workspace/{workspaceId}/encrypted-key', request)
+        url = utils.generate_url(operations.ListKeysRequest, base_url, '/workspace/{workspaceId}/encrypted-key', request)
         
         
         client = self._security_client
@@ -90,7 +63,7 @@ class Workspace:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetWorkspaceKeysResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.ListKeysResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -103,13 +76,13 @@ class Workspace:
 
         return res
 
-    def get_workspace_logs(self, request: operations.GetWorkspaceLogsRequest) -> operations.GetWorkspaceLogsResponse:
+    def list_logs(self, request: operations.ListLogsRequest) -> operations.ListLogsResponse:
         r"""Get workspace logs
         Get workspace logs
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetWorkspaceLogsRequest, base_url, '/workspace/{workspaceId}/logs', request)
+        url = utils.generate_url(operations.ListLogsRequest, base_url, '/workspace/{workspaceId}/logs', request)
         
         
         client = self._security_client
@@ -117,7 +90,7 @@ class Workspace:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetWorkspaceLogsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.ListLogsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -130,13 +103,13 @@ class Workspace:
 
         return res
 
-    def get_workspace_memberships(self, request: operations.GetWorkspaceMembershipsRequest) -> operations.GetWorkspaceMembershipsResponse:
+    def list_membership(self, request: operations.ListWorkspaceMembershipsRequest) -> operations.ListWorkspaceMembershipsResponse:
         r"""Get workspace memberships
         Get workspace memberships
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetWorkspaceMembershipsRequest, base_url, '/workspace/{workspaceId}/memberships', request)
+        url = utils.generate_url(operations.ListWorkspaceMembershipsRequest, base_url, '/workspace/{workspaceId}/memberships', request)
         
         
         client = self._security_client
@@ -144,7 +117,7 @@ class Workspace:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetWorkspaceMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.ListWorkspaceMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -157,13 +130,13 @@ class Workspace:
 
         return res
 
-    def get_workspace_snapshots(self, request: operations.GetWorkspaceSnapshotsRequest) -> operations.GetWorkspaceSnapshotsResponse:
-        r"""Get workspace snapshots
-        Get workspace snapshots
+    def list_snapshots(self, request: operations.ListSnapshotsRequest) -> operations.ListSnapshotsResponse:
+        r"""List workspace snapshots
+        List workspace snapshots
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetWorkspaceSnapshotsRequest, base_url, '/workspace/{workspaceId}/snapshots', request)
+        url = utils.generate_url(operations.ListSnapshotsRequest, base_url, '/workspace/{workspaceId}/snapshots', request)
         
         
         client = self._security_client
@@ -171,12 +144,39 @@ class Workspace:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetWorkspaceSnapshotsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.ListSnapshotsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[list[Any]])
                 res.snapshots = out
+        elif http_res.status_code in [401, 500]:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
+                res.error_response = out
+
+        return res
+
+    def list_workspace(self, request: operations.ListWorkspaceRequest) -> operations.ListWorkspaceResponse:
+        r"""List organization workspaces
+        List organization workspaces
+        """
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.ListWorkspaceRequest, base_url, '/organizations/{organizationId}/workspaces', request)
+        
+        
+        client = self._security_client
+        
+        http_res = client.request('GET', url)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.ListWorkspaceResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[list[shared.Workspace]])
+                res.workspaces = out
         elif http_res.status_code in [401, 500]:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
@@ -217,7 +217,7 @@ class Workspace:
 
         return res
 
-    def update_workspace_membership(self, request: operations.UpdateWorkspaceMembershipRequest) -> operations.UpdateWorkspaceMembershipResponse:
+    def update_membership(self, request: operations.UpdateWorkspaceMembershipRequest) -> operations.UpdateWorkspaceMembershipResponse:
         r"""Update workspace membership
         Update workspace membership
         """

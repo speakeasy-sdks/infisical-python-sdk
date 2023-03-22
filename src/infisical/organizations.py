@@ -5,7 +5,7 @@ from . import utils
 from infisical.models import operations, shared
 from typing import Optional
 
-class Organization:
+class Organizations:
     r"""Everything about organizations"""
     _client: requests_http.Session
     _security_client: requests_http.Session
@@ -22,13 +22,13 @@ class Organization:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
-    def delete_organization_membership(self, request: operations.DeleteOrganizationMembershipRequest) -> operations.DeleteOrganizationMembershipResponse:
+    def delete_membership(self, request: operations.DeleteOrgMembershipsRequest) -> operations.DeleteOrgMembershipsResponse:
         r"""Delete organization membership
         Delete organization membership
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.DeleteOrganizationMembershipRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
+        url = utils.generate_url(operations.DeleteOrgMembershipsRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
         
         
         client = self._security_client
@@ -36,7 +36,7 @@ class Organization:
         http_res = client.request('DELETE', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.DeleteOrganizationMembershipResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.DeleteOrgMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -49,13 +49,13 @@ class Organization:
 
         return res
 
-    def get_organization_memberships(self, request: operations.GetOrganizationMembershipsRequest) -> operations.GetOrganizationMembershipsResponse:
-        r"""Get organization memberships
-        Get organization memberships
+    def list_membership(self, request: operations.ListOrgMembershipsRequest) -> operations.ListOrgMembershipsResponse:
+        r"""List organization memberships
+        List organization memberships
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetOrganizationMembershipsRequest, base_url, '/organizations/{organizationId}/memberships', request)
+        url = utils.generate_url(operations.ListOrgMembershipsRequest, base_url, '/organizations/{organizationId}/memberships', request)
         
         
         client = self._security_client
@@ -63,7 +63,7 @@ class Organization:
         http_res = client.request('GET', url)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetOrganizationMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.ListOrgMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -76,40 +76,13 @@ class Organization:
 
         return res
 
-    def get_organization_workspaces(self, request: operations.GetOrganizationWorkspacesRequest) -> operations.GetOrganizationWorkspacesResponse:
-        r"""Get organization workspaces
-        Get organization workspaces
-        """
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.GetOrganizationWorkspacesRequest, base_url, '/organizations/{organizationId}/workspaces', request)
-        
-        
-        client = self._security_client
-        
-        http_res = client.request('GET', url)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.GetOrganizationWorkspacesResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[list[shared.Workspace]])
-                res.workspaces = out
-        elif http_res.status_code in [401, 500]:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.ErrorResponse])
-                res.error_response = out
-
-        return res
-
-    def update_organization_membership(self, request: operations.UpdateOrganizationMembershipRequest) -> operations.UpdateOrganizationMembershipResponse:
+    def update_membership(self, request: operations.UpdateOrgMembershipsRequest) -> operations.UpdateOrgMembershipsResponse:
         r"""Update organization membership
         Update organization membership
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.UpdateOrganizationMembershipRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
+        url = utils.generate_url(operations.UpdateOrgMembershipsRequest, base_url, '/organizations/{organizationId}/memberships/{membershipId}', request)
         
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "membership", 'json')
@@ -123,7 +96,7 @@ class Organization:
         http_res = client.request('PATCH', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.UpdateOrganizationMembershipResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.UpdateOrgMembershipsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):

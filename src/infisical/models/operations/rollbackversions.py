@@ -4,25 +4,27 @@ from __future__ import annotations
 import dataclasses
 import requests as requests_http
 from ..shared import errorresponse as shared_errorresponse
-from ..shared import membership as shared_membership
+from ..shared import secret as shared_secret
 from typing import Optional
 
 
 @dataclasses.dataclass
-class GetWorkspaceMembershipsRequest:
+class RollbackVersionsRequest:
     
-    workspace_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'workspaceId', 'style': 'simple', 'explode': False }})
-    r"""Workspace ID"""  
+    request_body: int = dataclasses.field(metadata={'request': { 'media_type': 'application/json' }})
+    r"""Rollback secret versions"""  
+    secret_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'secretId', 'style': 'simple', 'explode': False }})
+    r"""Secret ID"""  
     
 
 @dataclasses.dataclass
-class GetWorkspaceMembershipsResponse:
+class RollbackVersionsResponse:
     
     content_type: str = dataclasses.field()  
     status_code: int = dataclasses.field()  
     error_response: Optional[shared_errorresponse.ErrorResponse] = dataclasses.field(default=None)
     r"""Unauthorized"""  
-    memberships: Optional[list[shared_membership.Membership]] = dataclasses.field(default=None)
-    r"""OK"""  
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    secret: Optional[shared_secret.Secret] = dataclasses.field(default=None)
+    r"""OK"""  
     
