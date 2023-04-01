@@ -11,8 +11,8 @@ s = infisical.Infisical(
 
 
 req = operations.DeleteOrgMembershipsRequest(
-    membership_id="unde",
-    organization_id="deserunt",
+    membership_id="corrupti",
+    organization_id="provident",
 )
     
 res = s.organizations.delete_membership(req)
