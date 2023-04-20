@@ -31,7 +31,7 @@ class Infisical:
     _security_client: requests_http.Session
     _server_url: str = SERVERS[0]
     _language: str = "python"
-    _sdk_version: str = "0.14.2"
+    _sdk_version: str = "0.15.0"
     _gen_version: str = "2.18.2"
 
     def __init__(self,
